@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    background-color: #1C1C21;
+    justify-content: center;
+    align-items: center;
+    height: 88px;
+}
+
+.logo {
+    margin: 0 10%;
+}
+
+.box {
+    display: flex;
+}
+
+.nav {
+    display: flex;
+}

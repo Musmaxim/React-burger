@@ -8,7 +8,7 @@ import styles from "./AppHeader.module.css";
 
 const navClass = `${styles.nav} mr-2 mt-4 mb-4 pl-5 pr-5`;
 
-const AppHeader = (props) => {
+const AppHeader = () => {
   return (
     <header className={styles.container}>
       <nav className={navClass}>

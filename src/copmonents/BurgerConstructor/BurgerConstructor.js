@@ -1,19 +1,22 @@
-import React, { useMemo } from "react";
+import React, { useState } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { OrderDetails } from "../Modals/OrderDetails/OrderDetails";
+import Modal from "../Modals/Modal/Modal";
 import PropTypes from "prop-types";
 import { dataType } from "../../utils/dataType";
 import styles from "./BurgerConstructor.module.css";
 
 const BurgerConstructor = ({ data }) => {
+  const [modal, setModal] = useState(false);
   const price = 610;
 
-  const bun = data.find((ingredient) => ingredient.type === "bun")
-  
+  const bun = data.find((ingredient) => ingredient.type === "bun");
+
   return (
     <section className={styles.container + " pt-25"}>
       {bun && (
@@ -30,7 +33,7 @@ const BurgerConstructor = ({ data }) => {
       <div className={styles.list}>
         {data.map(
           (ingredient) =>
-          ingredient.type !== "bun" && (
+            ingredient.type !== "bun" && (
               <div key={ingredient._id} className={styles.element}>
                 <div className={styles.dragIcon}>
                   <DragIcon type="primary" />
@@ -62,10 +65,20 @@ const BurgerConstructor = ({ data }) => {
           <p className="text text_type_main-large pr-1">{price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="medium">
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={() => setModal(true)}
+        >
           Оформить заказ
         </Button>
       </footer>
+      {modal && (
+        <Modal onClose={() => setModal(false)}>
+          <OrderDetails orderId="034536" />
+        </Modal>
+      )}
     </section>
   );
 };

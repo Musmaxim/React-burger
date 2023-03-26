@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 export const dataType = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["bun", "sauce", "main"]).isRequired,
+  type: PropTypes.oneOf(["main", "bun", "sauce"]).isRequired,
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired,

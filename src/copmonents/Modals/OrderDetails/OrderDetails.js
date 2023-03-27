@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+ 
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./OrderDetails.module.css";
 
@@ -19,8 +19,4 @@ export const OrderDetails = ({ numbOrder }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.string.isRequired,
 };

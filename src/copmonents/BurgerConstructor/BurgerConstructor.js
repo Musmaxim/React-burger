@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
+import { v4 as uuidv4 } from "uuid";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -58,7 +59,7 @@ const BurgerConstructor = () => {
       <div className={styles.list + " pr-4"}>
         {another.map((ingredient, index) => (
           <DragIngredients
-            key={ingredient._id + Math.random()}
+            key={uuidv4()}
             index={index}
             data={ingredient}
           />

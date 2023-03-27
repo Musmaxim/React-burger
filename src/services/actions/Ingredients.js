@@ -1,3 +1,4 @@
+import checkResponse from "../../utils/checkResponce";
 import { dataApi } from "../../utils/data";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
@@ -8,22 +9,19 @@ export const getIngredients = () => (dispatch) => {
   dispatch({
     type: GET_INGREDIENTS_REQUEST,
   });
-  (async () => {
-    try {
-      const res = await fetch(dataApi + 'ingredients');
-      if (res.ok) {
-        const { data } = await res.json();
-        dispatch({
-          type: GET_INGREDIENTS_SUCCESS,
-          ingredients: data,
-        });
-      } else {
-        throw new Error(`Ошибка ${res.status}`);
-      }
-    } catch (err) {
+  fetch(dataApi + "ingredients")
+    .then((res) => checkResponse(res))
+    .then((dataJson) =>
+      dispatch({
+        type: GET_INGREDIENTS_SUCCESS,
+        ingredients: dataJson.data,
+      })
+    )
+    .catch((e) => {
       dispatch({
         type: GET_INGREDIENTS_FAIL,
       });
-    }
-  })();
+    });
 };
+
+

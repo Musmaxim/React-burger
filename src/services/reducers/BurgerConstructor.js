@@ -21,7 +21,7 @@ export const constructorReducer = (state = initialState, action) => {
           }
         : {
             ...state,
-            another: state.another.concat(action.ingredient)
+            another: state.another.concat(action.ingredient),
           };
     }
     case REMOVE_INGREDIENT: {

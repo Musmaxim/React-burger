@@ -11,7 +11,7 @@ import Modal from "../Modals/Modal/Modal";
 import { DragIngredients } from "../DragIngredients/DragIngredients";
 import { BUN } from "../../utils/data";
 import styles from "./BurgerConstructor.module.css";
-import { ADD_INGREDIENT } from "../../services/actions/BurgerConstructor";
+import { addIngredient } from "../../services/actions/BurgerConstructor";
 import { CLOSE_MODAL_ORDER, createOrder } from "../../services/actions/Order";
 
 const BurgerConstructor = () => {
@@ -29,10 +29,7 @@ const BurgerConstructor = () => {
   const [{ isHover }, dropRef] = useDrop({
       accept: 'ingredient',
       drop(item) {
-          dispatch({
-              type: ADD_INGREDIENT,
-              ingredient: item.ingredient
-          });
+        dispatch(addIngredient(item.ingredient));
       },
       collect: monitor => ({
           isHover: monitor.isOver(),

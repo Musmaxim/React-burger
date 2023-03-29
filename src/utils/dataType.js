@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 export const dataType = PropTypes.shape({
+  id: PropTypes.string,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["main", "bun", "sauce"]).isRequired,

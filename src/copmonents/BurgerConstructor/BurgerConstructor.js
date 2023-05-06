@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import {
   ConstructorElement,
@@ -15,25 +16,47 @@ import { addIngredient } from "../../services/actions/BurgerConstructor";
 import { CLOSE_MODAL_ORDER, createOrder } from "../../services/actions/Order";
 
 const BurgerConstructor = () => {
-  const { bun, another } = useSelector(store => store.burgerConstructor);
-  
-  const fullData = useMemo(() => [...another, bun].filter(nextItem => nextItem), [bun, another]);
+  const navigate = useNavigate();
+  const { bun, another } = useSelector((store) => store.burgerConstructor);
 
-  const fullPrice = useMemo(() => fullData.reduce((sum, nextItem) =>
-        sum + (nextItem.type === BUN ? nextItem.price * 2 : nextItem.price), 0), [fullData]);
+  const fullData = useMemo(
+    () => [...another, bun].filter((nextItem) => nextItem),
+    [bun, another]
+  );
+
+  const fullPrice = useMemo(
+    () =>
+      fullData.reduce(
+        (sum, nextItem) =>
+          sum + (nextItem.type === BUN ? nextItem.price * 2 : nextItem.price),
+        0
+      ),
+    [fullData]
+  );
 
   const dispatch = useDispatch();
 
-  const { numbOrder } = useSelector(store => store.order);
+  const { numbOrder } = useSelector((store) => store.order);
+
+  const { user } = useSelector((store) => store.user);
+
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    if (!user) {
+      navigate("/login");
+    } else {
+      dispatch(createOrder(fullData));
+    }
+  };
 
   const [{ isHover }, dropRef] = useDrop({
-      accept: 'ingredient',
-      drop(item) {
-        dispatch(addIngredient(item.ingredient));
-      },
-      collect: monitor => ({
-          isHover: monitor.isOver(),
-      })
+    accept: "ingredient",
+    drop(item) {
+      dispatch(addIngredient(item.ingredient));
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
   });
 
   return (
@@ -54,11 +77,7 @@ const BurgerConstructor = () => {
       )}
       <div className={styles.list + " pr-4"}>
         {another.map((ingredient, index) => (
-          <DragIngredients
-            key={index}
-            index={index}
-            data={ingredient}
-          />
+          <DragIngredients key={index} index={index} data={ingredient} />
         ))}
       </div>
       {bun && (
@@ -81,9 +100,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => {
-            dispatch(createOrder(fullData));
-          }}
+          onClick={handleOpenModal}
         >
           Оформить заказ
         </Button>

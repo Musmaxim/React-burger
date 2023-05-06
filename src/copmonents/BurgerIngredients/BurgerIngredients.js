@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../IngredientCard/IngredientCard";
@@ -14,6 +15,7 @@ import { categories, getСategory } from "../../utils/navigate";
 const BurgerIngredients = () => {
   const [tab, setTab] = useState(categories[0].title);
   const [modal, setModal] = useState(false);
+  const location = useLocation();
 
   const { ingredients } = useSelector((store) => store.ingredients);
   const data = useMemo(() => getСategory(ingredients), [ingredients]);
@@ -46,7 +48,7 @@ const BurgerIngredients = () => {
   }, [tab, tabsRef]);
 
   return (
-    <section className={styles.container + " mr-10"}>
+    <section className={styles.container + " mr-5"}>
       <p className={styles.title + " text text_type_main-medium mt-10 mb-5"}>
         Соберите бургер
       </p>
@@ -79,23 +81,32 @@ const BurgerIngredients = () => {
               </p>
               <div className={styles.ingredients}>
                 {category.data.map((ingredient) => (
-                  <IngredientCard
+                  <Link
+                    to={`/ingredients/${ingredient._id}`}
+                    state={{ background: location }}
                     key={ingredient._id}
-                    data={ingredient}
-                    onClick={() => {
-                      setModal(true);
-                      dispatch({
-                        type: SELECT_INGREDIENT,
-                        ingredient: ingredient,
-                      });
+                    style={{
+                      textDecoration: "none",
                     }}
-                  />
+                  >
+                    <IngredientCard
+                      key={ingredient._id}
+                      data={ingredient}
+                      // onClick={() => {
+                      //   setModal(true);
+                      //   dispatch({
+                      //     type: SELECT_INGREDIENT,
+                      //     ingredient: ingredient,
+                      //   });
+                      // }}
+                    />
+                  </Link>
                 ))}
               </div>
             </div>
           ))}
       </div>
-      {modal && (
+      {/* {modal && (
         <Modal
           header="Детали ингредиента"
           onClose={() => {
@@ -107,7 +118,7 @@ const BurgerIngredients = () => {
         >
           <IngredientDetails />
         </Modal>
-      )}
+      )} */}
     </section>
   );
 };

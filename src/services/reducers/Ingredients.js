@@ -2,12 +2,14 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAIL,
+  SELECT_INGREDIENT
 } from "../actions/Ingredients";
 
 const initialState = {
   ingredients: null,
   request: false,
   failed: false,
+  ingredient: null,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -31,6 +33,12 @@ export const ingredientsReducer = (state = initialState, action) => {
         ...state,
         failed: true,
         request: false,
+      };
+    }
+    case SELECT_INGREDIENT: {
+      return {
+        ...state,
+        ingredient: state.items.find((item) => item._id === action.id),
       };
     }
     default: {

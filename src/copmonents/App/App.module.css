@@ -4,15 +4,6 @@
   flex-direction: column;
 }
 
-.main {
-  display: flex;
-  justify-content: center;
-  align-self: center;
-  margin: 0 5%;
-  height: 80vh;
-  width: 1240px;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 }

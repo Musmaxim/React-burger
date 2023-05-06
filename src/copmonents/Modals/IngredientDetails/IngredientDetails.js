@@ -1,9 +1,17 @@
 import React from "react";
 import styles from "./IngredientDetails.module.css";
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const IngredientDetails = () => {
-  const { ingredient } = useSelector(store => store.modal);
+  const { ingredientId } = useParams();
+  const { ingredients } = useSelector((store) => {
+    return {
+      ingredients: store.ingredients.ingredients,
+    };
+  });
+  const ingredient = ingredients.find((item) => item._id === ingredientId);
+  
   return (
     <div className={styles.content}>
       <img className="mb-4" src={ingredient.image_large} alt={ingredient.name} />

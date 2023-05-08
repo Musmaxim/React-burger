@@ -30,7 +30,6 @@ const Modal = ({ children, header, handleCloseModal }) => {
     <div className={styles.modal}>
       <div className={styles.container}>
         <header className={styles.header + " ml-10 mr-10 mt-10"}>
-          <p className="text text_type_main-large">{header}</p>
           <CloseIcon type="primary" onClick={handleCloseModal} />
         </header>
         {children}

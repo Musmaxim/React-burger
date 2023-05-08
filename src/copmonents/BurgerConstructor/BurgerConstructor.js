@@ -49,6 +49,10 @@ const BurgerConstructor = () => {
     }
   };
 
+  const handleCloseModal = () => {
+    dispatch({ type: CLOSE_MODAL_ORDER });
+  };
+
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
@@ -107,11 +111,8 @@ const BurgerConstructor = () => {
       </footer>
       {numbOrder && (
         <Modal
-          onClose={() =>
-            dispatch({
-              type: CLOSE_MODAL_ORDER,
-            })
-          }
+          handleCloseModal={handleCloseModal}
+          
         >
           <OrderDetails numbOrder={numbOrder} />
         </Modal>

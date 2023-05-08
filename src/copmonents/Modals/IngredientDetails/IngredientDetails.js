@@ -11,9 +11,13 @@ const IngredientDetails = () => {
     };
   });
   const ingredient = ingredients.find((item) => item._id === ingredientId);
+  if (!ingredient) {
+    return null;
+  }
   
   return (
     <div className={styles.content}>
+    <h1 className="text text_type_main-large pt-10">Детали ингредиента</h1>
       <img className="mb-4" src={ingredient.image_large} alt={ingredient.name} />
       <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
       <div className={styles.info + " mb-15"}>

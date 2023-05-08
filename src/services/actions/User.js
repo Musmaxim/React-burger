@@ -34,20 +34,26 @@ export const register = (body) => {
     dispatch({
       type: REGISTER_REQUEST,
     });
-    getFetch("auth/register", body).then((res) => {
-      if (res && res.success) {
+    getFetch("auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch({
           type: REGISTER_SUCCESS,
           user: res.user,
         });
-      } else {
+      })
+      .catch((error) => {
         dispatch({
           type: REGISTER_FAILED,
         });
-      }
-    });
+      });
   };
 };
 
@@ -56,20 +62,26 @@ export const login = (body) => {
     dispatch({
       type: LOGIN_REQUEST,
     });
-    getFetch("auth/login", body).then((res) => {
-      if (res && res.success) {
+    getFetch("auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch({
           type: LOGIN_SUCCESS,
           user: res.user,
         });
-      } else {
+      })
+      .catch((error) => {
         dispatch({
           type: LOGIN_FAILED,
         });
-      }
-    });
+      });
   };
 };
 
@@ -79,21 +91,25 @@ export const logout = () => {
       type: LOGOUT_REQUEST,
     });
     getFetch("auth/logout", {
-      token: localStorage.getItem("refreshToken"),
-    }).then((res) => {
-      if (res && res.success) {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+    })
+      .then((res) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         dispatch({
           type: LOGOUT_SUCCESS,
           user: null,
         });
-      } else {
+      })
+      .catch((error) => {
         dispatch({
           type: LOGIN_FAILED,
         });
-      }
-    });
+      });
   };
 };
 
@@ -102,17 +118,23 @@ export const forgotPassword = (body) => {
     dispatch({
       type: FORGOT_PASSWORD_REQUEST,
     });
-    getFetch("password-reset", body).then((res) => {
-      if (res && res.success) {
+    getFetch("password-reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
         dispatch({
           type: FORGOT_PASSWORD_SUCCESS,
         });
-      } else {
+      })
+      .catch((error) => {
         dispatch({
           type: FORGOT_PASSWORD_FAILED,
         });
-      }
-    });
+      });
   };
 };
 
@@ -121,29 +143,34 @@ export const resetPassword = (body) => {
     dispatch({
       type: RESET_PASSWORD_REQUEST,
     });
-    getFetch("password-reset/reset", body).then((res) => {
-      if (res && res.success) {
+    getFetch("password-reset/reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((res) => {
         dispatch({
           type: RESET_PASSWORD_SUCCESS,
         });
-      } else {
+      })
+      .catch((error) => {
         dispatch({
           type: RESET_PASSWORD_FAILED,
         });
-      }
-    });
+      });
   };
 };
 
 export const updateUser = (body) => {
   body = JSON.stringify(body);
-  const requestUrl = dataApi + "auth/user";
   return function (dispatch) {
     dispatch({
       type: UPDATE_USER_REQUEST,
     });
 
-    fetchRefresh(requestUrl, {
+    fetchRefresh("auth/user", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -164,9 +191,8 @@ export const updateUser = (body) => {
 };
 
 export const getUser = () => {
-  const requestUrl = dataApi + "auth/user";
   return function (dispatch) {
-    fetchRefresh(requestUrl, {
+    fetchRefresh("auth/user", {
       method: "GET",
       headers: {
         authorization: localStorage.getItem("accessToken"),

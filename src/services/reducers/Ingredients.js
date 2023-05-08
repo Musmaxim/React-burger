@@ -6,10 +6,9 @@ import {
 } from "../actions/Ingredients";
 
 const initialState = {
-  ingredients: null,
+  ingredients: [],
   request: false,
   failed: false,
-  ingredient: null,
 };
 
 export const ingredientsReducer = (state = initialState, action) => {

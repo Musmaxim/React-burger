@@ -62,27 +62,27 @@ const Profile = () => {
     <div className={styles.container}>
       <section className={styles.menu}>
         <span
-          className={`text text_type_main-medium pt-4 pb-4 ${
+          className={`text text_type_main-medium pt-4 pb-4 ml-10 ${
             !matchProfile && "text_color_inactive"
           }`}
         >
-          <Link to="/profile">Профиль</Link>
+          <Link to="/profile" style={{ color: colorLink, textDecoration: "none" }}>Профиль</Link>
         </span>
 
         <span
-          className={`text text_type_main-medium pt-4 pb-4 ${
+          className={`text text_type_main-medium pt-4 pb-4 ml-10 ${
             !matchOrders && "text_color_inactive"
           }`}
         >
-          <Link to="orders">История заказов</Link>
+          <Link to="orders" style={{ color: colorLink, textDecoration: "none" }}>История заказов</Link>
         </span>
-        <span className="text text_type_main-medium pt-4 pb-4 text_color_inactive">
-          <Link to="/" onClick={handleLogout}>
+        <span className="text text_type_main-medium pt-4 pb-4 ml-10 text_color_inactive">
+          <Link to="/" style={{ color: colorLink, textDecoration: "none" }} onClick={handleLogout}>
             Выход
           </Link>
         </span>
 
-        <p className="text text_type_main-default text_color_inactive mt-20">
+        <p className="text text_type_main-default text_color_inactive mt-20 ml-10">
           В этом разделе вы можете
           <br />
           изменить свои персональные данные

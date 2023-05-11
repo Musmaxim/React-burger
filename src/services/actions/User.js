@@ -1,5 +1,5 @@
 import { dataApi } from "../../utils/data";
-import { fetchRefresh } from "../../utils/fetchRefresh";
+import fetchRefresh from "../../utils/fetchRefresh";
 import getFetch from "../../utils/getFetch";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";

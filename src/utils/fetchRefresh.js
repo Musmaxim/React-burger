@@ -17,7 +17,7 @@ export const refreshToken = () => {
 export const fetchRefresh = async (url, options) => {
   options["Content-Type"] = "application/json";
   try {
-    const res = await fetch(url, options);
+    const res = await fetch(dataApi + url, options);
     return await getCheckResponse(res);
   } catch (err) {
     if (err.message === "jwt expired") {
@@ -35,3 +35,5 @@ export const fetchRefresh = async (url, options) => {
     }
   }
 };
+
+export default fetchRefresh;

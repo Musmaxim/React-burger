@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     min-width: 30%;
+    
 }
 
 .list {
@@ -16,16 +17,20 @@
     position: relative;
     display: flex;
     align-items: center;
+    composes: element;
+    justify-content: center;
 }
 
 .elementTop {
     composes: element;
     margin-bottom: 10px;
+    justify-content: center;
 }
 
 .elementBottom {
     composes: element;
     margin-top: 10px;
+    justify-content: center;
 }
 
 .dragIcon {

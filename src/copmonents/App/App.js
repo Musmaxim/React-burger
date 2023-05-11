@@ -35,7 +35,7 @@ function App() {
   return (
     <>
       <AppHeader />
-    <Routes>
+    <Routes location={background || location}>
         <Route path="/" element={<Main />} />
         <Route
           path="/ingredients/:ingredientId"

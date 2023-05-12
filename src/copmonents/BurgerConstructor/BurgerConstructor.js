@@ -81,7 +81,7 @@ const BurgerConstructor = () => {
       )}
       <div className={styles.list + " pr-4 pl-4"}>
         {another.map((ingredient, index) => (
-          <DragIngredients key={index} index={index} data={ingredient} />
+          <DragIngredients key={ingredient.id} index={index} data={ingredient} />
         ))}
       </div>
       {bun && (

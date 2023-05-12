@@ -18,11 +18,7 @@ const AppHeader = () => {
       <nav className={navClass}>
         <Link
           to="/"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            textDecoration: "none",
-          }}
+          className={styles.link}
         >
           <BurgerIcon type={matchMainPage ? "primary" : "secondary"} />
           <p
@@ -46,11 +42,7 @@ const AppHeader = () => {
       <nav className={navClass}>
         <Link
           to="/profile"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            textDecoration: "none",
-          }}
+          className={styles.link}
         >
           <ProfileIcon type={matchProfilePage ? "primary" : "secondary"} />
           <p

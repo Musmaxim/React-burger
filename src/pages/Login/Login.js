@@ -58,13 +58,13 @@ const Login = () => {
       </form>
       <span className="text text_type_main-default mt-20 mb-4">
         Вы — новый пользователь?{" "}
-        <Link to="/register" style={{ color: colorLink, textDecoration: "none" }}>
+        <Link to="/register" className={styles.link}>
           Зарегистрироваться
         </Link>
       </span>
       <span className="text text_type_main-default">
         Забыли пароль?{" "}
-        <Link to="/forgotPassword" style={{ color: colorLink, textDecoration: "none" }}>
+        <Link to="/forgotPassword" className={styles.link}>
           Восстановить пароль
         </Link>
       </span>

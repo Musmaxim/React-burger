@@ -66,7 +66,7 @@ const Profile = () => {
             !matchProfile && "text_color_inactive"
           }`}
         >
-          <Link to="/profile" style={{ color: colorLink, textDecoration: "none" }}>Профиль</Link>
+          <Link to="/profile" className={styles.link}>Профиль</Link>
         </span>
 
         <span
@@ -74,10 +74,10 @@ const Profile = () => {
             !matchOrders && "text_color_inactive"
           }`}
         >
-          <Link to="orders" style={{ color: colorLink, textDecoration: "none" }}>История заказов</Link>
+          <Link to="orders" className={styles.link}>История заказов</Link>
         </span>
         <span className="text text_type_main-medium pt-4 pb-4 ml-10 text_color_inactive">
-          <Link to="/" style={{ color: colorLink, textDecoration: "none" }} onClick={handleLogout}>
+          <Link to="/" className={styles.link} onClick={handleLogout}>
             Выход
           </Link>
         </span>

@@ -8,3 +8,8 @@
 .container {
     height: 90vh;
 }
+
+.link {
+    color: colorLink;
+    text-decoration: none;
+}

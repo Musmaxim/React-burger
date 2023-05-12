@@ -69,7 +69,7 @@ const Register = () => {
       </form>
       <span className="text text_type_main-default mt-20 mb-4">
         Уже зарегистрированы?{" "}
-        <Link to="/login" style={{ color: colorLink, textDecoration: "none" }}>
+        <Link to="/login" className={styles.link}>
           Войти
         </Link>
       </span>

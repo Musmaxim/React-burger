@@ -80,9 +80,7 @@ const BurgerIngredients = () => {
                     to={`/ingredients/${ingredient._id}`}
                     state={{ background: location }}
                     key={ingredient._id}
-                    style={{
-                      textDecoration: "none",
-                    }}
+                    className={styles.link}
                   >
                     <IngredientCard key={ingredient._id} data={ingredient} />
                   </Link>

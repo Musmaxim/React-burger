@@ -59,7 +59,7 @@ const ForgotPassword = () => {
         </form>
         <span className="text text_type_main-default mt-20 mb-4">
           Вспомнили пароль?{" "}
-          <Link to="/login" style={{ color: colorLink }}>
+          <Link to="/login" className={styles.link}>
             Войти
           </Link>
         </span>

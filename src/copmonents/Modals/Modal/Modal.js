@@ -7,15 +7,15 @@ import styles from "./Modal.module.css";
 
 const modalRoot = document.getElementById("modals");
 
-const Modal = ({ children, header, onClose }) => {
+const Modal = ({ children, header, handleCloseModal }) => {
 
   const closeEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
-        onClose();
+        handleCloseModal();
       }
     },
-    [onClose]
+    [handleCloseModal]
   );
 
   useEffect(() => {
@@ -30,12 +30,11 @@ const Modal = ({ children, header, onClose }) => {
     <div className={styles.modal}>
       <div className={styles.container}>
         <header className={styles.header + " ml-10 mr-10 mt-10"}>
-          <p className="text text_type_main-large">{header}</p>
-          <CloseIcon type="primary" onClick={onClose} />
+          <CloseIcon type="primary" onClick={handleCloseModal} />
         </header>
         {children}
       </div>
-      <ModalOverlay onClose={onClose} />
+      <ModalOverlay onClose={handleCloseModal} />
     </div>,
     modalRoot
   );
@@ -43,8 +42,8 @@ const Modal = ({ children, header, onClose }) => {
 
 Modal.propTypes = {
   children: PropTypes.element.isRequired,
-  header: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  header: PropTypes.bool,
+  handleCloseModal: PropTypes.func.isRequired,
 };
 
 export default Modal;

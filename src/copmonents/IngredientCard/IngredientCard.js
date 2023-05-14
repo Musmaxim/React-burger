@@ -20,7 +20,7 @@ const countSelect = () =>
       ).length
   );
 
-const IngredientCard = ({ data, onClick }) => {
+const IngredientCard = ({ data }) => {
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: {
@@ -38,7 +38,7 @@ const IngredientCard = ({ data, onClick }) => {
         src={data.image}
         alt={data.name}
         className="ml-4 mb-1"
-        onClick={onClick}
+        // onClick={onClick}
       />
       {count > 0 && (<Counter count={count} size="default" extraClass="m-1" />)}
       <div className={styles.price + " mb-2"}>
@@ -56,7 +56,7 @@ const IngredientCard = ({ data, onClick }) => {
 
 IngredientCard.propTypes = {
   data: dataType,
-  onClick: PropTypes.func.isRequired,
+  // onClick: PropTypes.func.isRequired,
 };
 
 export default IngredientCard;

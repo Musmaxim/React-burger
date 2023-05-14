@@ -1,0 +1,32 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: 0 auto;
+    padding: 0 3%;
+    height: 80vh;
+    max-width: 1400px;
+  }
+
+  .app {
+    background-color:  #131316;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar:horizontal  {
+    height: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #2F2F37;
+  }
+  
+  
+  ::-webkit-scrollbar-thumb {
+    background: #8585AD;
+  }

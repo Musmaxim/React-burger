@@ -1,23 +1,20 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../IngredientCard/IngredientCard";
-import Modal from "../Modals/Modal/Modal";
-import IngredientDetails from "../Modals/IngredientDetails/IngredientDetails";
+
 import styles from "./BurgerIngredients.module.css";
-import {
-  CLOSE_MODAL_INGREDIENT,
-  SELECT_INGREDIENT,
-} from "../../services//actions/Modal";
+
 import { categories, getСategory } from "../../utils/navigate";
 
 const BurgerIngredients = () => {
   const [tab, setTab] = useState(categories[0].title);
-  const [modal, setModal] = useState(false);
+
+  const location = useLocation();
 
   const { ingredients } = useSelector((store) => store.ingredients);
   const data = useMemo(() => getСategory(ingredients), [ingredients]);
-  const dispatch = useDispatch();
 
   const categoriesRef = useRef();
 
@@ -46,7 +43,7 @@ const BurgerIngredients = () => {
   }, [tab, tabsRef]);
 
   return (
-    <section className={styles.container + " mr-10"}>
+    <section className={styles.container + " mr-5"}>
       <p className={styles.title + " text text_type_main-medium mt-10 mb-5"}>
         Соберите бургер
       </p>
@@ -79,35 +76,19 @@ const BurgerIngredients = () => {
               </p>
               <div className={styles.ingredients}>
                 {category.data.map((ingredient) => (
-                  <IngredientCard
+                  <Link
+                    to={`/ingredients/${ingredient._id}`}
+                    state={{ background: location }}
                     key={ingredient._id}
-                    data={ingredient}
-                    onClick={() => {
-                      setModal(true);
-                      dispatch({
-                        type: SELECT_INGREDIENT,
-                        ingredient: ingredient,
-                      });
-                    }}
-                  />
+                    className={styles.link}
+                  >
+                    <IngredientCard key={ingredient._id} data={ingredient} />
+                  </Link>
                 ))}
               </div>
             </div>
           ))}
       </div>
-      {modal && (
-        <Modal
-          header="Детали ингредиента"
-          onClose={() => {
-            setModal(false);
-            dispatch({
-              type: CLOSE_MODAL_INGREDIENT,
-            });
-          }}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
     </section>
   );
 };

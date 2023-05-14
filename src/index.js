@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./copmonents/App/App";
 import reportWebVitals from "./reportWebVitals";
@@ -11,7 +12,7 @@ import { Provider } from "react-redux";
 // const composeEnhancers =
 //   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 //     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-//     : compose; 
+//     : compose;
 
 const store = configureStore({
   reducer: rootReducer,
@@ -22,7 +23,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "./services/reducers";
 import { Provider } from "react-redux";
+
 // import { compose } from 'redux';
 
 // const composeEnhancers =
@@ -19,7 +20,10 @@ const store = configureStore({
   // enhancers: [composeEnhancers],
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

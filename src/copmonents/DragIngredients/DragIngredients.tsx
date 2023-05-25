@@ -1,3 +1,4 @@
+import { FC } from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -5,14 +6,23 @@ import {
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import styles from "./DragIngredients.module.css";
-import { dataType } from "../../utils/dataType";
 import {
   REMOVE_INGREDIENT,
   SORT_INGREDIENT,
 } from "../../services/actions/BurgerConstructor";
-import PropTypes from "prop-types";
+import { TIngredient } from "../../utils/types";
 
-export const DragIngredients = ({ data, index }) => {
+type TDraggable = {
+  data: TIngredient;
+  index: number;
+};
+
+type TDragItem = {
+  id: string;
+  index: number;
+};
+
+export const DragIngredients: FC<TDraggable> = ({ data, index }) => {
   const dispatch = useDispatch();
 
   const [{ isDrag }, dragRef] = useDrag({
@@ -26,9 +36,8 @@ export const DragIngredients = ({ data, index }) => {
     }),
   });
 
-  const [, dropRef] = useDrop({
+  const [, dropRef] = useDrop<TDragItem>({
     accept: "element",
-    collect: (monitor) => ({}),
     hover(item) {
       const dragIndex = item.index;
       const hoverIndex = index;
@@ -53,7 +62,6 @@ export const DragIngredients = ({ data, index }) => {
         <DragIcon type="primary" />
       </div>
       <ConstructorElement
-        type=""
         isLocked={false}
         text={data.name}
         price={data.price}
@@ -67,9 +75,4 @@ export const DragIngredients = ({ data, index }) => {
       />
     </div>
   );
-};
-
-DragIngredients.propTypes = {
-  data: dataType,
-  index: PropTypes.number.isRequired,
 };

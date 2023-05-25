@@ -1,27 +1,32 @@
-import React, { useCallback, useState } from "react";
+import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Login.module.css";
-import { colorLink } from "../../utils/data";
 import { login } from "../../services/actions/User";
 import useForm from "../../hooks/useForm";
 
-const Login = () => {
+type TLoginForm = {
+  email: string;
+  password: string;
+};
+
+const Login: FC = () => {
   const dispatch = useDispatch();
 
-  const { values, handleChange } = useForm({
+  const { values, handleChange } = useForm<TLoginForm>({
     email: "",
     password: "",
   });
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       login({
         email: values.email,
         password: values.password,

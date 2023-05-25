@@ -1,3 +1,4 @@
+import React, { FC } from "react";
 import {
   Logo,
   BurgerIcon,
@@ -9,21 +10,18 @@ import { Link, useMatch } from "react-router-dom";
 
 const navClass = `${styles.nav} mr-2 mt-4 mb-4 pl-5 pr-5`;
 
-const AppHeader = () => {
-  const matchMainPage = useMatch("/");
-  const matchProfilePage = useMatch({ path: "/profile", end: false });
+const AppHeader: FC = () => {
+  const matchMain = useMatch("/");
+  const matchProfile = useMatch({ path: "/profile", end: false });
 
   return (
     <header className={styles.container}>
       <nav className={navClass}>
-        <Link
-          to="/"
-          className={styles.link}
-        >
-          <BurgerIcon type={matchMainPage ? "primary" : "secondary"} />
+        <Link to="/" className={styles.link}>
+          <BurgerIcon type={matchMain ? "primary" : "secondary"} />
           <p
             className={`ml-2 mt-4 mb-4 text text_type_main-default ${
-              !matchMainPage && "text_color_inactive"
+              !matchMain && "text_color_inactive"
             }`}
           >
             Конструктор
@@ -40,14 +38,11 @@ const AppHeader = () => {
         <Logo />
       </div>
       <nav className={navClass}>
-        <Link
-          to="/profile"
-          className={styles.link}
-        >
-          <ProfileIcon type={matchProfilePage ? "primary" : "secondary"} />
+        <Link to="/profile" className={styles.link}>
+          <ProfileIcon type={matchProfile ? "primary" : "secondary"} />
           <p
             className={`ml-2 mt-4 mb-4 text text_type_main-default ${
-              !matchProfilePage && "text_color_inactive"
+              !matchProfile && "text_color_inactive"
             }`}
           >
             Личный кабинет

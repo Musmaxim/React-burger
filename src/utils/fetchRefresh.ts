@@ -1,6 +1,6 @@
 import { dataApi } from "./data";
 
-import getCheckResponse from "./checkResponce";
+import {checkResponse} from "./checkResponce";
 
 export const refreshToken = () => {
   return fetch(`${dataApi}auth/token`, {
@@ -11,15 +11,18 @@ export const refreshToken = () => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  }).then(getCheckResponse);
+  }).then(checkResponse);
 };
 
-export const fetchRefresh = async (url, options) => {
+export const fetchRefresh = async (url: string, options:RequestInit & {
+  headers: { authorization: string };
+  ["Content-Type"]: string;
+}) => {
   options["Content-Type"] = "application/json";
   try {
     const res = await fetch(dataApi + url, options);
-    return await getCheckResponse(res);
-  } catch (err) {
+    return await checkResponse(res);
+  } catch (err:any) {
     if (err.message === "jwt expired") {
       const refreshData = await refreshToken();
       if (!refreshData.success) {
@@ -29,7 +32,7 @@ export const fetchRefresh = async (url, options) => {
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options);
-      return await getCheckResponse(res);
+      return await checkResponse(res);
     } else {
       return Promise.reject(err);
     }

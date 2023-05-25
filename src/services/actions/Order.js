@@ -1,5 +1,5 @@
 import { dataApi } from "../../utils/data";
-import checkResponse from "../../utils/checkResponce";
+import {checkResponse} from "../../utils/checkResponce";
 
 export const GET_ORDER_REQUEST = "GET_ORDER_REQUEST";
 export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";

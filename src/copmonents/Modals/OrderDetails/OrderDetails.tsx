@@ -1,9 +1,13 @@
-import React from "react";
- 
+import React, { FC } from "react";
+
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./OrderDetails.module.css";
 
-export const OrderDetails = ({ numbOrder }) => {
+type TOrder = {
+  numbOrder: number;
+};
+
+export const OrderDetails: FC<TOrder> = ({ numbOrder }) => {
   return (
     <div className={styles.content}>
       <p className={styles.order + " text text_type_digits-large mb-8"}>

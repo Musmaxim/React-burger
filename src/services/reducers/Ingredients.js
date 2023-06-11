@@ -2,7 +2,7 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAIL,
-  SELECT_INGREDIENT
+  SELECT_INGREDIENT,
 } from "../actions/Ingredients";
 
 const initialState = {

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
@@ -14,9 +14,11 @@ import { BUN } from "../../utils/data";
 import styles from "./BurgerConstructor.module.css";
 import { addIngredient } from "../../services/actions/BurgerConstructor";
 import { CLOSE_MODAL_ORDER, createOrder } from "../../services/actions/Order";
+import { TIngredient } from "../../utils/types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
+  // @ts-ignore
   const { bun, another } = useSelector((store) => store.burgerConstructor);
 
   const fullData = useMemo(
@@ -35,16 +37,16 @@ const BurgerConstructor = () => {
   );
 
   const dispatch = useDispatch();
-
+  // @ts-ignore
   const { numbOrder } = useSelector((store) => store.order);
-
+  // @ts-ignore
   const { user } = useSelector((store) => store.user);
 
-  const handleOpenModal = (e) => {
-    e.preventDefault();
+  const handleOpenModal = () => {
     if (!user) {
       navigate("/login");
     } else {
+      // @ts-ignore
       dispatch(createOrder(fullData));
     }
   };
@@ -55,7 +57,8 @@ const BurgerConstructor = () => {
 
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
+      // @ts-ignore
       dispatch(addIngredient(item.ingredient));
     },
     collect: (monitor) => ({
@@ -80,8 +83,12 @@ const BurgerConstructor = () => {
         </div>
       )}
       <div className={styles.list + " pr-4 pl-4"}>
-        {another.map((ingredient, index) => (
-          <DragIngredients key={ingredient.id} index={index} data={ingredient} />
+        {another.map((ingredient: TIngredient, index: number) => (
+          <DragIngredients
+            key={ingredient.id}
+            index={index}
+            data={ingredient}
+          />
         ))}
       </div>
       {bun && (
@@ -110,10 +117,7 @@ const BurgerConstructor = () => {
         </Button>
       </footer>
       {numbOrder && (
-        <Modal
-          handleCloseModal={handleCloseModal}
-          
-        >
+        <Modal handleCloseModal={handleCloseModal}>
           <OrderDetails numbOrder={numbOrder} />
         </Modal>
       )}

@@ -1,6 +1,7 @@
+import React, { FC } from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink, Outlet, useMatch } from "react-router-dom";
+import { Link, Outlet, useMatch } from "react-router-dom";
 import {
   Button,
   Input,
@@ -8,28 +9,34 @@ import {
 import styles from "./Profile.module.css";
 import { logout, updateUser } from "../../services/actions/User";
 import useForm from "../../hooks/useForm";
-import { colorLink } from "../../utils/data";
 
-const Profile = () => {
+type TProfileForm = {
+  name: string;
+  email: string;
+};
+
+const Profile: FC = () => {
   const dispatch = useDispatch();
   const matchProfile = useMatch("/profile");
   const matchOrders = useMatch("/profile/orders");
 
   const { user } = useSelector((store) => {
     return {
+      // @ts-ignore
       user: store.user.user,
     };
   });
-  const [isNewData, setIsNewData] = useState(false);
+  const [isNewData, setIsNewData] = useState<boolean>(false);
 
-  const { values, handleChange, setValues } = useForm({
+  const { values, handleChange, setValues } = useForm<TProfileForm>({
     name: user.name,
     email: user.email,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       updateUser({
         name: values.name,
         email: values.email,
@@ -41,17 +48,14 @@ const Profile = () => {
     setValues(user);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = (e: React.FormEvent) => {
     e.preventDefault();
+    // @ts-ignore
     dispatch(logout());
   };
 
   useEffect(() => {
-    if (
-      user.name !== values.name ||
-      user.email !== values.email ||
-      values.password
-    ) {
+    if (user.name !== values.name || user.email !== values.email) {
       setIsNewData(true);
     } else {
       setIsNewData(false);
@@ -66,7 +70,9 @@ const Profile = () => {
             !matchProfile && "text_color_inactive"
           }`}
         >
-          <Link to="/profile" className={styles.link}>Профиль</Link>
+          <Link to="/profile" className={styles.link}>
+            Профиль
+          </Link>
         </span>
 
         <span
@@ -74,7 +80,9 @@ const Profile = () => {
             !matchOrders && "text_color_inactive"
           }`}
         >
-          <Link to="orders" className={styles.link}>История заказов</Link>
+          <Link to="orders" className={styles.link}>
+            История заказов
+          </Link>
         </span>
         <span className="text text_type_main-medium pt-4 pb-4 ml-10 text_color_inactive">
           <Link to="/" className={styles.link} onClick={handleLogout}>
@@ -120,7 +128,7 @@ const Profile = () => {
               <div className={styles.buttonsWrapper}>
                 <span
                   className="text text_type_main-default"
-                  style={{ color: colorLink, cursor: "pointer" }}
+                  style={{ color: "4c4cff", cursor: "pointer" }}
                   onClick={handleCancelUpdate}
                 >
                   Отмена

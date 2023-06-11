@@ -1,28 +1,34 @@
-import React, { useCallback, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Register.module.css";
-import { colorLink } from "../../utils/data";
 import { useDispatch } from "react-redux";
 import { register } from "../../services/actions/User";
 import useForm from "../../hooks/useForm";
 
-const Register = () => {
+type TRegisterForm = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+const Register: FC = () => {
   const dispatch = useDispatch();
 
-  const { values, handleChange } = useForm({
+  const { values, handleChange } = useForm<TRegisterForm>({
     email: "",
     password: "",
     name: "",
   });
 
-  const handleRegister = (e) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       register({
         name: values.name,
         email: values.email,

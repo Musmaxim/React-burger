@@ -1,4 +1,4 @@
-import checkResponse from "../../utils/checkResponce";
+import {checkResponse} from "../../utils/checkResponce";
 import { dataApi } from "../../utils/data";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
@@ -8,23 +8,29 @@ import {
 import styles from "./ForgotPassword.module.css";
 import useForm from "../../hooks/useForm";
 import { forgotPassword } from "../../services/actions/User";
-import { colorLink } from '../../utils/data';
 
-const ForgotPassword = () => {
+type TForgotPasswordForm = {
+  email: string;
+};
+
+const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
+
   const { isPasswordForgot } = useSelector((store) => {
     return {
+      // @ts-ignore
       isPasswordForgot: store.user.isPasswordForgot,
     };
   });
 
-  const { values, handleChange } = useForm({
+  const { values, handleChange } = useForm<TForgotPasswordForm>({
     email: "",
   });
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       forgotPassword({
         email: values.email,
       })
@@ -39,10 +45,7 @@ const ForgotPassword = () => {
         <span className={`text text_type_main-medium `}>
           Восстановление пароля
         </span>
-        <form
-          className={styles.form}
-          onSubmit={handleForgotPassword}
-        >
+        <form className={styles.form} onSubmit={handleForgotPassword}>
           <Input
             type={"email"}
             placeholder={"Укажите e-mail"}

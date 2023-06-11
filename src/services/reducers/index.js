@@ -3,7 +3,7 @@ import { constructorReducer } from "./BurgerConstructor";
 import { ingredientsReducer } from "./Ingredients";
 import { modalReducer } from "./Modal";
 import { orderReducer } from "./Order";
-import { userReducer } from './User';
+import { userReducer } from "./User";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,

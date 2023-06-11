@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
@@ -7,12 +7,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./ResetPassword.module.css";
-import { colorLink } from "../../utils/data";
 import { resetPassword } from "../../services/actions/User";
 import useForm from "../../hooks/useForm";
 
-const ResetPassword = () => {
+type TResetPasswordForm = {
+  token: string;
+  password: string;
+};
+
+const ResetPassword: FC = () => {
   const dispatch = useDispatch();
+  // @ts-ignore
   const getDataStore = (store) => {
     return {
       isPasswordForgot: store.user.isPasswordForgot,
@@ -20,14 +25,15 @@ const ResetPassword = () => {
   };
   const { isPasswordForgot } = useSelector(getDataStore);
 
-  const { values, handleChange } = useForm({
+  const { values, handleChange } = useForm<TResetPasswordForm>({
     password: "",
     token: "",
   });
 
-  const handleResetPassword = (e) => {
+  const handleResetPassword = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(
+      // @ts-ignore
       resetPassword({
         password: values.password,
         token: values.token,

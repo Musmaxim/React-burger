@@ -1,41 +1,53 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useMemo,
+  useRef,
+  useEffect,
+  SyntheticEvent,
+  FC
+} from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../IngredientCard/IngredientCard";
-
+import { TIngredient } from "../../utils/types";
 import styles from "./BurgerIngredients.module.css";
 
 import { categories, getСategory } from "../../utils/navigate";
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
   const [tab, setTab] = useState(categories[0].title);
 
   const location = useLocation();
-
+  //@ts-ignore
   const { ingredients } = useSelector((store) => store.ingredients);
   const data = useMemo(() => getСategory(ingredients), [ingredients]);
 
-  const categoriesRef = useRef();
+  const categoriesRef = useRef<any>();
 
-  const handleScroll = (e) => {
-    const parentTop = categoriesRef.current.getBoundingClientRect().top;
-    const startDiff = Math.abs(
-      e.currentTarget.children[0].getBoundingClientRect().top - parentTop
-    );
+  const handleScroll = (event: SyntheticEvent) => {
+    if (categoriesRef.current) {
+      const parentTop = categoriesRef.current.getBoundingClientRect().top;
+      if (event.currentTarget) {
+        const startDiff = Math.abs(
+          event.currentTarget.children[0].getBoundingClientRect().top -
+            parentTop
+        );
 
-    const { index } = Array.from(e.currentTarget.children).reduce(
-      (prev, curr, index) => {
-        const diff = Math.abs(parentTop - curr.getBoundingClientRect().top);
-        return diff < prev.diff ? { diff, index } : prev;
-      },
-      { diff: startDiff, index: 0 }
-    );
+        const { index } = Array.from(event.currentTarget.children).reduce(
+          (prev, curr, index) => {
+            const diff = Math.abs(parentTop - curr.getBoundingClientRect().top);
+            return diff < prev.diff ? { diff, index } : prev;
+          },
+          { diff: startDiff, index: 0 }
+        );
 
-    setTab(data[index].title);
+        setTab(data[index].title);
+      }
+    }
   };
 
-  const tabsRef = useRef([]);
+  const tabsRef = useRef<any>([]);
   useEffect(() => {
     tabsRef.current[
       categories.findIndex((nextTab) => nextTab.title === tab)
@@ -65,7 +77,7 @@ const BurgerIngredients = () => {
         onScroll={handleScroll}
       >
         {data &&
-          data.map((category, index) => (
+          data.map((category: any, index: number) => (
             <div
               ref={(node) => (tabsRef.current[index] = node)}
               key={category.type}
@@ -75,7 +87,7 @@ const BurgerIngredients = () => {
                 {category.title}
               </p>
               <div className={styles.ingredients}>
-                {category.data.map((ingredient) => (
+                {category.data.map((ingredient: TIngredient) => (
                   <Link
                     to={`/ingredients/${ingredient._id}`}
                     state={{ background: location }}

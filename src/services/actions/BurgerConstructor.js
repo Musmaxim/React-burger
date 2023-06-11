@@ -8,4 +8,3 @@ export const addIngredient = (ingredient) => ({
   type: ADD_INGREDIENT,
   ingredient: { ...ingredient, id: uuidv4() },
 });
-

@@ -1,9 +1,15 @@
+import React, { FC } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
-  const user = useSelector((store) => store.user.user);
+type TProtected  = {
+  onlyUnAuth?: boolean;
+  component: JSX.Element;
+};
+
+const ProtectedRoute: FC<TProtected> = ({ onlyUnAuth = false, component }) => {
+  const isAuthChecked = useSelector((store: any) => store.user.isAuthChecked);
+  const user = useSelector((store: any) => store.user.user);
   const location = useLocation();
 
   if (!isAuthChecked) {
@@ -23,6 +29,6 @@ const ProtectedRoute = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = ProtectedRoute;
-export const OnlyUnAuth = ({ component }) => (
+export const OnlyUnAuth = ({ component }: TProtected) => (
   <ProtectedRoute onlyUnAuth={true} component={component} />
 );

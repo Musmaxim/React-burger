@@ -1,24 +1,32 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from "./IngredientDetails.module.css";
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { TIngredient } from '../../../utils/types';
 
-const IngredientDetails = () => {
+type TIngredientState = {
+  ingredients: TIngredient[] | null;
+  request: boolean;
+  failed: boolean;
+};
+
+const IngredientDetails: FC = () => {
   const { ingredientId } = useParams();
-  const { ingredients } = useSelector((store) => {
-    return {
-      ingredients: store.ingredients.ingredients,
-    };
-  });
-  const ingredient = ingredients.find((item) => item._id === ingredientId);
+   // @ts-ignore
+  const { ingredients } = useSelector<TIngredientState>(store => store.ingredients);
+  const ingredient = ingredients.find((item:any) => item._id === ingredientId);
   if (!ingredient) {
     return null;
   }
-  
+
   return (
     <div className={styles.content}>
-    <h1 className="text text_type_main-large pt-10">Детали ингредиента</h1>
-      <img className="mb-4" src={ingredient.image_large} alt={ingredient.name} />
+      <h1 className="text text_type_main-large pt-10">Детали ингредиента</h1>
+      <img
+        className="mb-4"
+        src={ingredient.image_large}
+        alt={ingredient.name}
+      />
       <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
       <div className={styles.info + " mb-15"}>
         {[

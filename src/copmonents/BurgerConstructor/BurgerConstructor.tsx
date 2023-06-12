@@ -1,5 +1,4 @@
-import React, { useMemo, FC } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useMemo, useCallback, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import {
@@ -10,16 +9,17 @@ import {
 import { OrderDetails } from "../Modals/OrderDetails/OrderDetails";
 import Modal from "../Modals/Modal/Modal";
 import { DragIngredients } from "../DragIngredients/DragIngredients";
-import { BUN } from "../../utils/data";
 import styles from "./BurgerConstructor.module.css";
 import { addIngredient } from "../../services/actions/BurgerConstructor";
-import { CLOSE_MODAL_ORDER, createOrder } from "../../services/actions/Order";
-import { TIngredient } from "../../utils/types";
+import { createOrder } from "../../services/actions/Order";
+import { clearOrderNum } from "../../services/slices/Order";
+import { useAppDispatch, useAppSelector } from "../../store/Hooks";
+import { TDragged } from "../../utils/types";
+import { Loader } from "../Loader/Loader";
 
 const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
-  // @ts-ignore
-  const { bun, another } = useSelector((store) => store.burgerConstructor);
+  const { bun, another } = useAppSelector((store) => store.burgerConstructor);
 
   const fullData = useMemo(
     () => [...another, bun].filter((nextItem) => nextItem),
@@ -29,36 +29,29 @@ const BurgerConstructor: FC = () => {
   const fullPrice = useMemo(
     () =>
       fullData.reduce(
-        (sum, nextItem) =>
-          sum + (nextItem.type === BUN ? nextItem.price * 2 : nextItem.price),
+        (sum, nextItem) => (nextItem ? sum + nextItem.price : sum),
         0
       ),
     [fullData]
   );
 
-  const dispatch = useDispatch();
-  // @ts-ignore
-  const { numbOrder } = useSelector((store) => store.order);
-  // @ts-ignore
-  const { user } = useSelector((store) => store.user);
+  const dispatch = useAppDispatch();
+
+  const { numbOrder, status } = useAppSelector((store) => store.order);
+
+  const { user } = useAppSelector((store) => store.user);
 
   const handleOpenModal = () => {
     if (!user) {
       navigate("/login");
     } else {
-      // @ts-ignore
       dispatch(createOrder(fullData));
     }
   };
 
-  const handleCloseModal = () => {
-    dispatch({ type: CLOSE_MODAL_ORDER });
-  };
-
   const [{ isHover }, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item: TIngredient) {
-      // @ts-ignore
+    drop(item: TDragged) {
       dispatch(addIngredient(item.ingredient));
     },
     collect: (monitor) => ({
@@ -83,7 +76,7 @@ const BurgerConstructor: FC = () => {
         </div>
       )}
       <div className={styles.list + " pr-4 pl-4"}>
-        {another.map((ingredient: TIngredient, index: number) => (
+        {another.map((ingredient, index) => (
           <DragIngredients
             key={ingredient.id}
             index={index}
@@ -116,9 +109,13 @@ const BurgerConstructor: FC = () => {
           Оформить заказ
         </Button>
       </footer>
-      {numbOrder && (
-        <Modal handleCloseModal={handleCloseModal}>
-          <OrderDetails numbOrder={numbOrder} />
+      {(status !== "idle" || numbOrder) && (
+        <Modal onClose={() => dispatch(clearOrderNum())}>
+          {status === "loading" ? (
+            <Loader />
+          ) : (
+            numbOrder && <OrderDetails numbOrder={numbOrder} />
+          )}
         </Modal>
       )}
     </section>

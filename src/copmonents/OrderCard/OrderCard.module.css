@@ -1,0 +1,81 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C21;
+    border-radius: 40px;    
+}
+
+a:-webkit-any-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.doneStatus {
+    color: #00CCCC;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ingredients {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.circle {
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    background-color: #131316;
+    position: relative;
+    padding: 3px;
+    margin-right: -10px;
+}
+
+.circle::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50px;
+    border: 3px solid transparent;
+    background: linear-gradient(45deg, purple, #4C4CFF) border-box;
+    -webkit-mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+}
+
+.withCounter {
+    opacity: 60%;
+}
+
+.circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.counter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.price {
+    display: flex;
+}

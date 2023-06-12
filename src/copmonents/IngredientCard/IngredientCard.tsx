@@ -4,10 +4,10 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd/dist/hooks";
-import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import styles from "./IngredientCard.module.css";
 import { TIngredient } from "../../utils/types";
+import { useAppSelector } from "../../store/Hooks";
 
 type TConstructorState = {
   bun: TIngredient | null;
@@ -26,6 +26,7 @@ const countSelect = () =>
 
 type TIngredientCard = {
   data: TIngredient;
+  onClick: () => void;
 };
 
 const IngredientCard: FC<TIngredientCard> = ({ data }) => {
@@ -38,7 +39,7 @@ const IngredientCard: FC<TIngredientCard> = ({ data }) => {
   });
 
   const selectCount = useMemo(countSelect, []);
-  const count = useSelector((store) => selectCount(store, data));
+  const count = useAppSelector((store) => selectCount(store, data));
 
   return (
     <div className={styles.container + " ml-4 mt-6 mb-10"} ref={dragRef}>

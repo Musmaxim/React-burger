@@ -1,34 +1,50 @@
-.container {
-    max-width: 1280px;
-    margin: 0 auto;
+.main {
+    margin-top: 5%;
     display: flex;
-    padding-top: 120px;
-    padding-left: 60px;
-    gap: 60px;
+    left: 50%;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .menu {
     display: flex;
     flex-direction: column;
-    max-width: 320px;
-    max-height: 48px;
+    width: 320px;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-left: 60px;
+    align-items: center;
 }
 
-.buttonsWrapper {
+.buttons {
+    width: max-content;
+    display: flex;
+}
+
+.nav {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 28px;
-}
-
-.link {
-    color: #4c4cff;
+    white-space: nowrap;
     text-decoration: none;
 }
+
+.navLink {
+    composes: nav;
+}
+
+.activeNavLink {
+    composes: nav;
+}
+
+.activeNavLink p {
+    color: white;
+}
+
+.orders {
+    overflow-y: auto;
+    width: 800px;
+    height: 60vh;
+}
+

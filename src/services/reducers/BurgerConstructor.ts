@@ -1,20 +1,25 @@
-import { BUN } from "../../utils/data";
-
+import { Category } from "../../utils/data";
+import { TConstructorState } from "../../utils/types";
 import {
   ADD_INGREDIENT,
+  CLEAR_INGREDIENT,
   REMOVE_INGREDIENT,
   SORT_INGREDIENT,
+  TBurgerConstructorActions,
 } from "../actions/BurgerConstructor";
 
-const initialState = {
+const initialState: TConstructorState = {
   bun: null,
   another: [],
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (
+  state = initialState,
+  action: TBurgerConstructorActions
+) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      return action.ingredient.type === BUN
+      return action.ingredient.type === Category.BUN
         ? {
             ...state,
             bun: action.ingredient,
@@ -42,6 +47,9 @@ export const constructorReducer = (state = initialState, action) => {
         ...state,
         another: newArr,
       };
+    }
+    case CLEAR_INGREDIENT: {
+      return initialState;
     }
     default: {
       return state;

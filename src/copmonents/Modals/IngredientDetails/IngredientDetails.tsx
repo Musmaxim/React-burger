@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import styles from "./IngredientDetails.module.css";
-import { useSelector } from 'react-redux';
+import { useAppSelector } from "../../../store/Hooks";
 import { useParams } from "react-router-dom";
-import { TIngredient } from '../../../utils/types';
+import { TIngredient } from "../../../utils/types";
 
 type TIngredientState = {
   ingredients: TIngredient[] | null;
@@ -12,28 +12,31 @@ type TIngredientState = {
 
 const IngredientDetails: FC = () => {
   const { ingredientId } = useParams();
-   // @ts-ignore
-  const { ingredients } = useSelector<TIngredientState>(store => store.ingredients);
-  const ingredient = ingredients.find((item:any) => item._id === ingredientId);
-  if (!ingredient) {
-    return null;
-  }
+  const { ingredient } = useAppSelector((store) => store.selectedIngredient);
+  const { ingredients } = useAppSelector<TIngredientState>(
+    (store) => store.ingredients
+  );
+  const currentIngredient =
+    ingredient ||
+    ingredients?.find((nextIngredient) => nextIngredient._id === ingredientId);
 
-  return (
+  return currentIngredient ? (
     <div className={styles.content}>
       <h1 className="text text_type_main-large pt-10">Детали ингредиента</h1>
       <img
         className="mb-4"
-        src={ingredient.image_large}
-        alt={ingredient.name}
+        src={currentIngredient.image_large}
+        alt={currentIngredient.name}
       />
-      <p className="text text_type_main-medium mb-8">{ingredient.name}</p>
+      <p className="text text_type_main-medium mb-8">
+        {currentIngredient.name}
+      </p>
       <div className={styles.info + " mb-15"}>
         {[
-          ["Калории, ккал", ingredient.calories],
-          ["Белки, г", ingredient.proteins],
-          ["Жиры, г", ingredient.fat],
-          ["Углеводы, г", ingredient.carbohydrates],
+          ["Калории, ккал", currentIngredient.calories],
+          ["Белки, г", currentIngredient.proteins],
+          ["Жиры, г", currentIngredient.fat],
+          ["Углеводы, г", currentIngredient.carbohydrates],
         ].map(([name, value]) => (
           <div key={name} className={styles.param + " mr-5"}>
             <p className="text text_type_main-default text_color_inactive">
@@ -46,7 +49,7 @@ const IngredientDetails: FC = () => {
         ))}
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default IngredientDetails;

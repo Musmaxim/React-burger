@@ -6,38 +6,23 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./ForgotPassword.module.css";
-import useForm from "../../hooks/useForm";
-import { forgotPassword } from "../../services/actions/User";
-
-type TForgotPasswordForm = {
-  email: string;
-};
+import { useForm } from "../../hooks/useForm";
+import { forgotPassword } from "../../services/actions/ForgotPassword";
+import { useAppDispatch, useAppSelector } from "../../store/Hooks";
 
 const ForgotPassword: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { isPasswordForgot } = useSelector((store) => {
-    return {
-      // @ts-ignore
-      isPasswordForgot: store.user.isPasswordForgot,
-    };
-  });
+  const { success } = useAppSelector((store) => store.forgotPassword);
 
-  const { values, handleChange } = useForm<TForgotPasswordForm>({
-    email: "",
-  });
+  const { form, onChange } = useForm({ email: "" });
 
   const handleForgotPassword = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(
-      // @ts-ignore
-      forgotPassword({
-        email: values.email,
-      })
-    );
+    dispatch(forgotPassword(form));
   };
 
-  if (isPasswordForgot) {
+  if (success) {
     return <Navigate to="/resetPassword" replace />;
   } else {
     return (
@@ -52,8 +37,8 @@ const ForgotPassword: FC = () => {
             name={"email"}
             size={"default"}
             extraClass="mt-6 mb-6"
-            value={values.email}
-            onChange={handleChange}
+            value={form.email}
+            onChange={onChange}
           />
 
           <Button htmlType="submit" type="primary" size="medium">

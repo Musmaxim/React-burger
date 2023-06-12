@@ -4,25 +4,25 @@ import React, {
   useRef,
   useEffect,
   SyntheticEvent,
-  FC
+  FC,
 } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "../IngredientCard/IngredientCard";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../store/Hooks";
 import styles from "./BurgerIngredients.module.css";
-
+import { SELECT_INGREDIENT } from "../../services/actions/SelectedIngredients";
 import { categories, getСategory } from "../../utils/navigate";
 
 const BurgerIngredients: FC = () => {
   const [tab, setTab] = useState(categories[0].title);
 
   const location = useLocation();
-  //@ts-ignore
-  const { ingredients } = useSelector((store) => store.ingredients);
-  const data = useMemo(() => getСategory(ingredients), [ingredients]);
 
+  const { ingredients } = useAppSelector((store) => store.ingredients);
+  const data = useMemo(() => getСategory(ingredients), [ingredients]);
+  const dispatch = useAppDispatch();
   const categoriesRef = useRef<any>();
 
   const handleScroll = (event: SyntheticEvent) => {
@@ -77,7 +77,7 @@ const BurgerIngredients: FC = () => {
         onScroll={handleScroll}
       >
         {data &&
-          data.map((category: any, index: number) => (
+          data.map((category, index) => (
             <div
               ref={(node) => (tabsRef.current[index] = node)}
               key={category.type}
@@ -94,7 +94,16 @@ const BurgerIngredients: FC = () => {
                     key={ingredient._id}
                     className={styles.link}
                   >
-                    <IngredientCard key={ingredient._id} data={ingredient} />
+                    <IngredientCard
+                      key={ingredient._id}
+                      data={ingredient}
+                      onClick={() => {
+                        dispatch({
+                          type: SELECT_INGREDIENT,
+                          ingredient: ingredient,
+                        });
+                      }}
+                    />
                   </Link>
                 ))}
               </div>

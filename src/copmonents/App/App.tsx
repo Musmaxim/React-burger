@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../AppHeader/AppHeader";
 import { getIngredients } from "../../services/actions/Ingredients";
@@ -12,7 +12,6 @@ import Profile from "../../pages/Profile/Profile";
 import { OrdersHistory } from "../../pages/Profile/OrderHistory";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { Feed } from "../../pages/Feed/Feed";
-import Logout from "../../pages/Profile/Logout";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 import Modal from "../Modals/Modal/Modal";
 import IngredientDetails from "../Modals/IngredientDetails/IngredientDetails";
@@ -22,7 +21,7 @@ const App = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const background = location.state && location.state.background;
+  const background = useMemo(() => location.state && location.state.background, [location.state]);
 
   const handleCloseModal = (): void => {
     navigate("/");
@@ -31,7 +30,6 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(getIngredients());
-    // eslint-disable-next-line
   }, [dispatch]);
 
   return (
@@ -44,7 +42,6 @@ const App = () => {
           element={<IngredientDetails />}
         />
         <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
-        <Route path="/logout" element={<OnlyAuth component={<Logout />} />} />
         <Route
           path="/register"
           element={<OnlyUnAuth component={<Register />} />}

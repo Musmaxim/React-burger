@@ -1,8 +1,19 @@
 import React from "react";
 import styles from "./Profile.module.css";
 import { NavLink } from "react-router-dom";
+import { useAppDispatch } from "../../store/Hooks";
+import { logout } from "../../services/actions/User";
+import { setAuthChecked } from "../../services/slices/User";
+
 
 export const ProfileNavigation = () => {
+  const dispatch = useAppDispatch();
+
+  const onExit = () => {
+    dispatch(logout());
+    dispatch(setAuthChecked(false));
+  };
+
   return (
     <>
       <NavLink
@@ -30,7 +41,8 @@ export const ProfileNavigation = () => {
         </p>
       </NavLink>
       <NavLink
-        to={"/logout"}
+        to={"/login"}
+        onClick={onExit}
         className={({ isActive }) =>
           `mr-2 mt-4 mb-4 pl-5 pr-5 ` +
           (isActive ? styles.activeNavLink : styles.navLink)

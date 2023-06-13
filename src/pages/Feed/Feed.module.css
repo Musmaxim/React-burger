@@ -17,7 +17,6 @@
 .queue {
     display: flex;
     flex-direction: column;
-    flex: 0 0 600px;
     margin-top: 100px;
 }
 
@@ -33,7 +32,10 @@
 
 .inWork {
     display: flex;
-    gap: 8px;
+    flex-wrap: wrap;
+    gap: calc(var(--offset-base-size) * 2);
+    max-height: calc(var(--offset-base-size) * 40);
+    overflow: auto;
 }
 
 .done {

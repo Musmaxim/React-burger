@@ -2,21 +2,23 @@ import React, { FC, useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/Hooks";
 import { ProfileNavigation } from "./ProfileNavigation";
 import styles from "./Profile.module.css";
-import { BURGER_WSS } from "../../utils/data";
+import { BURGER_WSS, WebsocketStatus } from "../../utils/data";
 import { OrderCard } from "../../copmonents/OrderCard/OrderCard";
 import { selectOrder } from "../../services/slices/SelectedOrder";
-import { connect } from "../../services/actions/WsProfile";
+import { connect, disconnect } from "../../services/actions/WsProfile";
 import { TOrder } from "../../utils/types";
 
 export const OrdersHistory: FC = () => {
   const dispatch = useAppDispatch();
-  const { wsMessage } = useAppSelector((store) => store.wsProfile);
+  const { wsMessage,status } = useAppSelector((store) => store.wsProfile);
   const { orders } = wsMessage || {};
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
+    if (status === WebsocketStatus.OFFLINE)
     dispatch(connect(`${BURGER_WSS}orders?token=${accessToken}`));
-  }, []); 
+
+}, []);
   
   
 const reversedOrders = useMemo<Array<TOrder>>(() => {

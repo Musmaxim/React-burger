@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import AppHeader from "../AppHeader/AppHeader";
 import { getIngredients } from "../../services/actions/Ingredients";
@@ -21,7 +21,7 @@ const App = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const background = useMemo(() => location.state && location.state.background, [location.state]);
+  const background = location.state && location.state.background;
 
   const handleCloseModal = (): void => {
     navigate("/");

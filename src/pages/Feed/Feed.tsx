@@ -2,19 +2,19 @@ import React, { useEffect, useMemo } from "react";
 import styles from "./Feed.module.css";
 import { OrderCard } from "../../copmonents/OrderCard/OrderCard";
 import { useAppDispatch, useAppSelector } from "../../store/Hooks";
-import { connect } from "../../services/actions/WsFeed";
-import { BURGER_WSS } from "../../utils/data";
+import { connect, disconnect } from "../../services/actions/WsFeed";
+import { BURGER_WSS, WebsocketStatus } from "../../utils/data";
 import { selectOrder } from "../../services/slices/SelectedOrder";
 
 export const Feed = () => {
-  const { wsMessage } = useAppSelector((store) => store.wsFeed);
+  const { wsMessage,status } = useAppSelector((store) => store.wsFeed);
   const { orders, total, totalToday } = wsMessage || {};
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (status === WebsocketStatus.OFFLINE)
     dispatch(connect(`${BURGER_WSS}orders/all`));
-
-  }, [dispatch]);
+}, []);
 
   const done = useMemo(() => {
     return orders?.filter((order) => order.status === "done");

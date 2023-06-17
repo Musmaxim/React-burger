@@ -5,7 +5,7 @@ import styles from "./Profile.module.css";
 import { BURGER_WSS } from "../../utils/data";
 import { OrderCard } from "../../copmonents/OrderCard/OrderCard";
 import { selectOrder } from "../../services/slices/SelectedOrder";
-import { connect } from "../../services/actions/WsProfile";
+import { connect, disconnect } from "../../services/actions/WsProfile";
 import { TOrder } from "../../utils/types";
 
 export const OrdersHistory: FC = () => {
@@ -16,6 +16,9 @@ export const OrdersHistory: FC = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     dispatch(connect(`${BURGER_WSS}orders?token=${accessToken}`));
+    return () => {
+      dispatch(disconnect());
+    };
 }, []);
   
   

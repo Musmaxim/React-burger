@@ -3,18 +3,21 @@ import styles from "./Feed.module.css";
 import { OrderCard } from "../../copmonents/OrderCard/OrderCard";
 import { useAppDispatch, useAppSelector } from "../../store/Hooks";
 import { connect, disconnect } from "../../services/actions/WsFeed";
-import { BURGER_WSS, WebsocketStatus } from "../../utils/data";
+import { BURGER_WSS } from "../../utils/data";
 import { selectOrder } from "../../services/slices/SelectedOrder";
 
 export const Feed = () => {
-  const { wsMessage,status } = useAppSelector((store) => store.wsFeed);
+  const { wsMessage } = useAppSelector((store) => store.wsFeed);
   const { orders, total, totalToday } = wsMessage || {};
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (status === WebsocketStatus.OFFLINE)
     dispatch(connect(`${BURGER_WSS}orders/all`));
-}, []);
+
+    return () => {
+      dispatch(disconnect());
+    };
+  }, []);
 
   const done = useMemo(() => {
     return orders?.filter((order) => order.status === "done");
@@ -43,26 +46,23 @@ export const Feed = () => {
         <div className={styles.numbers + " mb-15"}>
           <div className={styles.columns + " mr-9"}>
             <p className="text text_type_main-medium mb-6">Готовы:</p>
-            <div className={styles.done}> {done?.map((order) => (
-              <p
-                key={order._id}
-                className="text text_type_digits-default"
-              >
-                {order.number}
-              </p>
-            ))}</div>
+            <div className={styles.done}>
+              {" "}
+              {done?.map((order) => (
+                <p key={order._id} className="text text_type_digits-default">
+                  {order.number}
+                </p>
+              ))}
+            </div>
           </div>
           <div className={styles.columns}>
             <p className="text text_type_main-medium mb-6">В работе:</p>
             <div className={styles.inWork}>
-            {work?.map((order) => (
-              <p
-                key={order._id}
-                className="text text_type_digits-default"
-              >
-                {order.number}
-              </p>
-            ))}
+              {work?.map((order) => (
+                <p key={order._id} className="text text_type_digits-default">
+                  {order.number}
+                </p>
+              ))}
             </div>
           </div>
         </div>

@@ -40,10 +40,12 @@ export const socketMiddleware = (
       } = wsActions;
 
       if (wsConnect.match(action)) {
+        if (!socket) {
         url = action.payload;
         socket = new WebSocket(url);
         isConnected = true;
         dispatch(wsConnecting());
+        }
       }
 
       if (socket) {

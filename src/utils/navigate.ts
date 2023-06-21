@@ -1,6 +1,7 @@
-import { BUN, MAIN, SAUCE } from "./data";
+import { Category } from "./data";
+import { TIngredient } from "./types";
 
-export const getBun = (arr) => {
+export const getBun = (arr: TIngredient[]) => {
   let ifBun = false;
   return arr.filter((ingredient) => {
     if (ingredient.type === "bun") {
@@ -16,26 +17,32 @@ export const getBun = (arr) => {
   });
 };
 
+type TCategory = {
+  type: Category;
+  title: string;
+  data: TIngredient[];
+};
+
 export const categories = [
   {
-    type: BUN,
+    type: Category.BUN,
     title: "Булки",
     data: [],
   },
   {
-    type: MAIN,
+    type: Category.MAIN,
     title: "Начинки",
     data: [],
   },
   {
-    type: SAUCE,
+    type: Category.SAUCE,
     title: "Соусы",
     data: [],
   },
 ];
 
-export const getСategory = (data) => {
-  const categoryData = JSON.parse(JSON.stringify(categories));
+export const getСategory = (data: Array<TIngredient> | null) => {
+  const categoryData: TCategory[] = JSON.parse(JSON.stringify(categories));
 
   if (data) {
     data.forEach((ingredient) => {

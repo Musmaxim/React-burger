@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Input,
@@ -8,30 +7,20 @@ import {
 
 import styles from "./Login.module.css";
 import { login } from "../../services/actions/User";
-import useForm from "../../hooks/useForm";
-
-type TLoginForm = {
-  email: string;
-  password: string;
-};
+import { useForm } from "../../hooks/useForm";
+import { useAppDispatch } from "../../store/Hooks";
 
 const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { values, handleChange } = useForm<TLoginForm>({
+  const { form, onChange } = useForm({
     email: "",
     password: "",
   });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(
-      // @ts-ignore
-      login({
-        email: values.email,
-        password: values.password,
-      })
-    );
+    dispatch(login(form));
   };
 
   return (
@@ -44,8 +33,8 @@ const Login: FC = () => {
           name={"email"}
           size={"default"}
           extraClass="mt-6 mb-6"
-          value={values.email}
-          onChange={handleChange}
+          value={form.email}
+          onChange={onChange}
         />
         <Input
           type={"password"}
@@ -54,8 +43,8 @@ const Login: FC = () => {
           size={"default"}
           icon={"ShowIcon"}
           extraClass="mb-6"
-          value={values.password}
-          onChange={handleChange}
+          value={form.password}
+          onChange={onChange}
         />
         <Button htmlType="submit" type="primary" size="large">
           Войти

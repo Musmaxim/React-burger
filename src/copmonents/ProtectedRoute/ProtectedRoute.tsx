@@ -1,15 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store/Hooks";
 
-type TProtected  = {
+type TProtected = {
   onlyUnAuth?: boolean;
-  component: JSX.Element;
+  component: ReactElement;
 };
 
 const ProtectedRoute: FC<TProtected> = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useSelector((store: any) => store.user.isAuthChecked);
-  const user = useSelector((store: any) => store.user.user);
+  const isAuthChecked = useAppSelector((store: any) => store.user?.isAuthChecked);
+  const user = useAppSelector((store: any) => store.user?.user);
   const location = useLocation();
 
   if (!isAuthChecked) {
@@ -29,6 +29,6 @@ const ProtectedRoute: FC<TProtected> = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = ProtectedRoute;
-export const OnlyUnAuth = ({ component }: TProtected) => (
+export const OnlyUnAuth = React.memo(({ component }: TProtected) => (
   <ProtectedRoute onlyUnAuth={true} component={component} />
-);
+));

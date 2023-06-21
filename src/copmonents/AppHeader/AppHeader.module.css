@@ -13,14 +13,3 @@
 .box {
     display: flex;
 }
-
-.nav {
-    display: flex;
-}
-
-.link {
-    color: colorLink;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}

@@ -1,146 +1,102 @@
 import React, { FC } from "react";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useMatch } from "react-router-dom";
+import { useCallback } from "react";
 import {
   Button,
   Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
-import { logout, updateUser } from "../../services/actions/User";
-import useForm from "../../hooks/useForm";
-
-type TProfileForm = {
-  name: string;
-  email: string;
-};
+import { patchUser } from "../../services/actions/User";
+import { useForm } from "../../hooks/useForm";
+import { ProfileNavigation } from "./ProfileNavigation";
+import { useAppDispatch, useAppSelector } from "../../store/Hooks";
 
 const Profile: FC = () => {
-  const dispatch = useDispatch();
-  const matchProfile = useMatch("/profile");
-  const matchOrders = useMatch("/profile/orders");
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((store) => store.user);
 
-  const { user } = useSelector((store) => {
-    return {
-      // @ts-ignore
-      user: store.user.user,
-    };
-  });
-  const [isNewData, setIsNewData] = useState<boolean>(false);
-
-  const { values, handleChange, setValues } = useForm<TProfileForm>({
-    name: user.name,
-    email: user.email,
+  const { form, onChange, setForm } = useForm({
+    name: user?.name,
+    email: user?.email,
+    password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSave = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(
-      // @ts-ignore
-      updateUser({
-        name: values.name,
-        email: values.email,
-      })
-    );
+    dispatch(patchUser(form));
   };
 
-  const handleCancelUpdate = () => {
-    setValues(user);
+  const onCancel = () => {
+    setForm(user);
   };
 
-  const handleLogout = (e: React.FormEvent) => {
-    e.preventDefault();
-    // @ts-ignore
-    dispatch(logout());
-  };
-
-  useEffect(() => {
-    if (user.name !== values.name || user.email !== values.email) {
-      setIsNewData(true);
-    } else {
-      setIsNewData(false);
-    }
-  }, [values]);
+  const isChanged = useCallback(
+    () =>
+      user &&
+      (user.name !== form.name || user.email !== form.email || !!form.password),
+    [user, form]
+  );
 
   return (
-    <div className={styles.container}>
-      <section className={styles.menu}>
-        <span
-          className={`text text_type_main-medium pt-4 pb-4 ml-10 ${
-            !matchProfile && "text_color_inactive"
-          }`}
-        >
-          <Link to="/profile" className={styles.link}>
-            Профиль
-          </Link>
-        </span>
-
-        <span
-          className={`text text_type_main-medium pt-4 pb-4 ml-10 ${
-            !matchOrders && "text_color_inactive"
-          }`}
-        >
-          <Link to="orders" className={styles.link}>
-            История заказов
-          </Link>
-        </span>
-        <span className="text text_type_main-medium pt-4 pb-4 ml-10 text_color_inactive">
-          <Link to="/" className={styles.link} onClick={handleLogout}>
-            Выход
-          </Link>
-        </span>
-
-        <p className="text text_type_main-default text_color_inactive mt-20 ml-10">
-          В этом разделе вы можете
-          <br />
-          изменить свои персональные данные
+    <div className={styles.main}>
+      <div className={styles.menu}>
+        <ProfileNavigation />
+        <p className="text text_type_main-default text_color_inactive mt-20 ml-5">
+          В этом разделе вы можете изменить свои персональные данные
         </p>
-      </section>
-      <section>
-        <Outlet />
-        {matchProfile && (
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <Input
-              type={"text"}
-              name={"name"}
-              placeholder={"Имя"}
-              icon={"EditIcon"}
-              value={values.name}
-              onChange={handleChange}
-            />
-            <Input
-              type={"email"}
-              name={"email"}
-              placeholder={"Логин"}
-              icon={"EditIcon"}
-              value={values.email}
-              onChange={handleChange}
-            />
-            <Input
-              type={"password"}
-              name={"password"}
-              placeholder={"Пароль"}
-              icon={"EditIcon"}
-              value={""}
-              onChange={handleChange}
-            />
-            {isNewData && (
-              <div className={styles.buttonsWrapper}>
-                <span
-                  className="text text_type_main-default"
-                  style={{ color: "4c4cff", cursor: "pointer" }}
-                  onClick={handleCancelUpdate}
-                >
-                  Отмена
-                </span>
-                <Button htmlType="submit" type="primary" size="medium">
-                  Сохранить
-                </Button>
-              </div>
-            )}
-          </form>
+      </div>
+      <form onSubmit={onSave} className={styles.form + " ml-15"}>
+        <Input
+          type={"text"}
+          placeholder={"Имя"}
+          onChange={onChange}
+          value={form.name}
+          name={"name"}
+          error={false}
+          size={"default"}
+          extraClass="mb-6"
+          icon={"EditIcon"}
+        />
+        <Input
+          type={"text"}
+          placeholder={"Логин"}
+          onChange={onChange}
+          value={form.email}
+          name={"email"}
+          error={false}
+          size={"default"}
+          extraClass="mb-6"
+          icon={"EditIcon"}
+        />
+        <PasswordInput
+          placeholder={"Пароль"}
+          onChange={onChange}
+          value={form.password}
+          name={"password"}
+          icon={"EditIcon"}
+          extraClass="mb-6"
+        />
+        {isChanged() && (
+          <div className={styles.buttons}>
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="medium"
+              extraClass="mr-4"
+            >
+              Сохранить
+            </Button>
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              onClick={onCancel}
+            >
+              Отмена
+            </Button>
+          </div>
         )}
-      </section>
+      </form>
     </div>
   );
 };

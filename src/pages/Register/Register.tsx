@@ -6,20 +6,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import styles from "./Register.module.css";
-import { useDispatch } from "react-redux";
 import { register } from "../../services/actions/User";
-import useForm from "../../hooks/useForm";
-
-type TRegisterForm = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { useForm } from "../../hooks/useForm";
+import { useAppDispatch } from "../../store/Hooks";
 
 const Register: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const { values, handleChange } = useForm<TRegisterForm>({
+  const { form, onChange } = useForm({
     email: "",
     password: "",
     name: "",
@@ -27,14 +21,7 @@ const Register: FC = () => {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(
-      // @ts-ignore
-      register({
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      })
-    );
+    dispatch(register(form));
   };
 
   return (
@@ -47,8 +34,8 @@ const Register: FC = () => {
           name={"name"}
           size={"default"}
           extraClass="mt-6"
-          value={values.name}
-          onChange={handleChange}
+          value={form.name}
+          onChange={onChange}
         />
         <Input
           type={"email"}
@@ -56,8 +43,8 @@ const Register: FC = () => {
           name={"email"}
           size={"default"}
           extraClass="mt-6 mb-6"
-          value={values.email}
-          onChange={handleChange}
+          value={form.email}
+          onChange={onChange}
         />
         <Input
           type={"password"}
@@ -66,8 +53,8 @@ const Register: FC = () => {
           size={"default"}
           icon={"ShowIcon"}
           extraClass="mb-6"
-          value={values.password}
-          onChange={handleChange}
+          value={form.password}
+          onChange={onChange}
         />
         <Button htmlType="submit" type="primary" size="medium">
           Зарегистрироваться

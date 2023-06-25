@@ -5,7 +5,7 @@ import {
   TSelectIngredientActions,
 } from "../actions/SelectedIngredients";
 
-const initialState: TSelectIngredientState = {
+export const initialState: TSelectIngredientState = {
   ingredient: null,
 };
 

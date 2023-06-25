@@ -6,7 +6,7 @@ import {
   TForgotPasswordActions,
 } from "../actions/ForgotPassword";
 
-const initialState = {
+export const initialState = {
   request: false,
   success: false,
   failed: false,
@@ -42,7 +42,6 @@ export const forgotPasswordReducer = (
     case FORGOT_PASSWORD_CLOSE: {
       return {
         ...state,
-        success: false,
       };
     }
     default: {

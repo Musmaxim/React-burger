@@ -42,7 +42,7 @@ const IngredientCard: FC<TIngredientCard> = ({ data }) => {
   const count = useAppSelector((store) => selectCount(store, data));
 
   return (
-    <div className={styles.container + " ml-4 mt-6 mb-10"} ref={dragRef}>
+    <div className={styles.container + " ml-4 mt-6 mb-10"} ref={dragRef} data-testid={"dragElement"}>
       <img src={data.image} alt={data.name} className="ml-4 mb-1" />
       {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div className={styles.price + " mb-2"}>

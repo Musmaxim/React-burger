@@ -35,6 +35,7 @@ const Login: FC = () => {
           extraClass="mt-6 mb-6"
           value={form.email}
           onChange={onChange}
+          data-testid={"testInputEmail"}
         />
         <Input
           type={"password"}
@@ -45,8 +46,9 @@ const Login: FC = () => {
           extraClass="mb-6"
           value={form.password}
           onChange={onChange}
+          data-testid={"testInputPassword"}
         />
-        <Button htmlType="submit" type="primary" size="large">
+        <Button htmlType="submit" type="primary" size="large" data-testid={"testBtnLogin"}>
           Войти
         </Button>
       </form>

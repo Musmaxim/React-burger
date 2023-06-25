@@ -22,13 +22,14 @@ const IngredientDetails: FC = () => {
 
   return currentIngredient ? (
     <div className={styles.content}>
-      <h1 className="text text_type_main-large pt-10">Детали ингредиента</h1>
+      <h1 className="text text_type_main-large pt-10"  data-testid={"modalTitle"}>Детали ингредиента</h1>
       <img
         className="mb-4"
         src={currentIngredient.image_large}
         alt={currentIngredient.name}
+        data-testid={"ingredientImage"}
       />
-      <p className="text text_type_main-medium mb-8">
+      <p className="text text_type_main-medium mb-8" data-testid={"ingredientName"}>
         {currentIngredient.name}
       </p>
       <div className={styles.info + " mb-15"}>
@@ -39,7 +40,7 @@ const IngredientDetails: FC = () => {
           ["Углеводы, г", currentIngredient.carbohydrates],
         ].map(([name, value]) => (
           <div key={name} className={styles.param + " mr-5"}>
-            <p className="text text_type_main-default text_color_inactive">
+            <p className="text text_type_main-default text_color_inactive"  data-testid={"ingredientInfo"}>
               {name}
             </p>
             <p className="text text_type_digits-default text_color_inactive">

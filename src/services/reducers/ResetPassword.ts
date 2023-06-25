@@ -6,7 +6,7 @@ import {
   TResetPasswordActions,
 } from "../actions/ResetPassword";
 
-const initialState = {
+export const initialState = {
   request: false,
   success: false,
   failed: false,

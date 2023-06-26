@@ -26,14 +26,14 @@ const BurgerConstructor: FC = () => {
     [bun, another]
   );
 
-  const fullPrice = useMemo(
-    () =>
-      fullData.reduce(
-        (sum, nextItem) => (nextItem ? sum + nextItem.price : sum),
-        0
-      ),
-    [fullData]
-  );
+const fullPrice = useMemo(
+  () =>
+    fullData.reduce(
+      (sum, nextItem) => (nextItem?.type === "bun" ? sum + (nextItem.price ?? 0) * 2 : sum + (nextItem?.price ?? 0)),
+      0
+    ),
+  [fullData]
+);
 
   const dispatch = useAppDispatch();
 

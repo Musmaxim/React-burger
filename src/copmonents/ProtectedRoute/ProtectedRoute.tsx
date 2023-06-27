@@ -8,8 +8,8 @@ type TProtected = {
 };
 
 const ProtectedRoute: FC<TProtected> = ({ onlyUnAuth = false, component }) => {
-  const isAuthChecked = useAppSelector((store: any) => store.user?.isAuthChecked);
-  const user = useAppSelector((store: any) => store.user?.user);
+  const isAuthChecked = useAppSelector((store) => store.user?.isAuthChecked);
+  const user = useAppSelector((store) => store.user?.user);
   const location = useLocation();
 
   if (!isAuthChecked) {

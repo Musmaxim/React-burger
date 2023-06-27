@@ -6,7 +6,7 @@ type TOverlay = {
 };
 
 const ModalOverlay = ({ onClose }: TOverlay) => {
-  return <div className={styles.container} onClick={onClose} />;
+  return <div className={styles.container} onClick={onClose}/>;
 };
 
 export default ModalOverlay;

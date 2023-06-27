@@ -24,7 +24,7 @@ const App = () => {
   const background = location.state && location.state.background;
 
   const handleCloseModal = (): void => {
-    navigate("/");
+    navigate(background);
   };
 
   useEffect(() => {

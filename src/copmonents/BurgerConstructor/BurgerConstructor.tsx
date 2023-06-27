@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, FC } from "react";
+import React, { useMemo, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd/dist/hooks/useDrop";
 import {
@@ -26,14 +26,14 @@ const BurgerConstructor: FC = () => {
     [bun, another]
   );
 
-  const fullPrice = useMemo(
-    () =>
-      fullData.reduce(
-        (sum, nextItem) => (nextItem ? sum + nextItem.price : sum),
-        0
-      ),
-    [fullData]
-  );
+const fullPrice = useMemo(
+  () =>
+    fullData.reduce(
+      (sum, nextItem) => (nextItem?.type === "bun" ? sum + (nextItem.price ?? 0) * 2 : sum + (nextItem?.price ?? 0)),
+      0
+    ),
+  [fullData]
+);
 
   const dispatch = useAppDispatch();
 
@@ -63,6 +63,7 @@ const BurgerConstructor: FC = () => {
     <section
       className={styles.container + " pt-25" + (isHover ? styles.isHover : "")}
       ref={dropRef}
+      data-testid={"constructorContainer"}
     >
       {bun && (
         <div className={styles.elementTop + " pl-8"}>
@@ -105,6 +106,7 @@ const BurgerConstructor: FC = () => {
           type="primary"
           size="medium"
           onClick={handleOpenModal}
+          data-testid={"btnMakeOrder"}
         >
           Оформить заказ
         </Button>

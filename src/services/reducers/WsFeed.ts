@@ -9,7 +9,7 @@ import {
   wsOpen,
 } from "../actions/WsFeed";
 
-const initialState: TWsStore = {
+export const initialState: TWsStore = {
   status: WebsocketStatus.OFFLINE,
   error: "",
   wsMessage: null,
